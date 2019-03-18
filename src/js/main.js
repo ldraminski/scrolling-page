@@ -12,55 +12,61 @@ const scrollingPage = (() => {
         console.log('Scrolling Page');
 
         //replaceSrc();
-        getAllAnchors(() => {
-            checkWhatImageShouldLoad();
-        });
+        checkWhatImageShouldLoad();
 
         document.addEventListener('scroll', ()=>{
-            getAllAnchors(() => {
-                checkWhatImageShouldLoad();
-            });
+            checkWhatImageShouldLoad();
         });
     }
 
-    function checkWhatImageShouldLoad() {
+    async function checkWhatImageShouldLoad() {
 
-        const imageContainer = document.querySelector('.container-pic');
+        try {
+            await getAllAnchors();
+            const imageContainer = document.querySelector('.container-pic');
 
-        let scrollTop = window.pageYOffset + window.innerHeight;
-        let imageSrc = '';
+            let scrollTop = window.pageYOffset + window.innerHeight;
+            let imageSrc = '';
 
-        for(let i = assignCordsToAnchors.length - 1; i >= 0; i--) {
-            if(scrollTop > assignCordsToAnchors[i][0] || scrollTop < assignCordsToAnchors[0][0] ) {
-                if(currentPic !== assignCordsToAnchors[i][0] ) {
-                    currentPic = assignCordsToAnchors[i][0];
-                    imageSrc = require('../images/' + assignCordsToAnchors[i][1]);
-                    imageContainer.style.cssText = 'background-image: url('+ imageSrc  + ')';
-                    return;
-                } else {
-                    console.log('This image is loaded');
-                    return
+            for(let i = assignCordsToAnchors.length - 1; i >= 0; i--) {
+                if(scrollTop > assignCordsToAnchors[i][0] || scrollTop < assignCordsToAnchors[0][0] ) {
+                    if(currentPic !== assignCordsToAnchors[i][0] ) {
+                        currentPic = assignCordsToAnchors[i][0];
+                        imageSrc = require('../images/' + assignCordsToAnchors[i][1]);
+                        imageContainer.style.cssText = 'background-image: url('+ imageSrc  + ')';
+                        console.log('ENGAGE');
+                        return;
+                    } else {
+                        console.log('This image is loaded');
+                        return
+                    }
                 }
             }
+        } catch(error) {
+            //console.log('Message' + error);
         }
     }
 
-    function getAllAnchors(callback) {
+    function getAllAnchors() {
 
-        if(!running){
-            running = true;
-            setTimeout(()=> {
-                assignCordsToAnchors = [];
-
-                [].forEach.call(anchors, (item)=>{
-                    let cordsX = item.offsetTop;
-                    let imageSrc = item.getAttribute('data-src');
-                    assignCordsToAnchors.push([cordsX, imageSrc]);
-                });
-                callback();
-                running = false;
-            }, 200)
-        }
+        return new Promise((resolve, reject) => {
+            if(!running){
+                running = true;
+                setTimeout(()=> {
+                    assignCordsToAnchors = [];
+    
+                    [].forEach.call(anchors, (item)=>{
+                        let cordsX = item.offsetTop;
+                        let imageSrc = item.getAttribute('data-src');
+                        assignCordsToAnchors.push([cordsX, imageSrc]);
+                    });
+                    resolve();
+                    running = false;
+                }, 200)
+            } else {
+                reject('Function still running');
+            }
+        });
     }
 
     function replaceSrc() {
