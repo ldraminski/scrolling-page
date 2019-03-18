@@ -1,0 +1,31 @@
+
+html,body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#page {
+    display: flex;
+}
+
+.column {
+    position: relative;
+    width: 50%;
+}
+
+.column--art {
+    padding-left: 40px;
+}
+
+.text {
+    font: 400 16px/24px $fontMain;
+}
+
+.text--title {
+    margin: 10px 0px;
+    font: 700 36px/40px $fontMain;
+}
+
+.img-anchor {
+    color: red;
+}

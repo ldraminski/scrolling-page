@@ -25,7 +25,6 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 },
-
             },
             {
                 test: /\.css$/,
@@ -37,14 +36,19 @@ module.exports = {
                     fallback: 'style-loader',
                     use: ['css-loader', 'sass-loader']
                 })
-            }, {
+            },
+            {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 use: [{
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
-                        limit: 8192,
-                        fallback: 'file-loader',
                         name: '[name].[ext]',
+                        outputPath: 'images/',
+                        publicPath: 'images/'
                     }
                 }]
             }

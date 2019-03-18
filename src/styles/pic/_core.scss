@@ -1,0 +1,14 @@
+
+.container-pic {
+    position: fixed;
+    width: 47vw;
+    height: 90vh;
+    margin-top: 5vh;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+
+    &__pic {
+        width: 100%;
+    }
+}

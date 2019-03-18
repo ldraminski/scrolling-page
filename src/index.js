@@ -1,17 +1,6 @@
 import './styles/style.scss';
-import image from './images/pic.png';
+import main from './js/main.js';
 
+console.log('Main');
 
-function scrollingPage() {
-
-    function init() {
-
-        console.log('Scrolling Page');
-    }
-
-    return {
-        init: init
-    }
-}
-
-scrollingPage.init();
+main.scrollingPage.init();
