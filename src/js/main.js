@@ -5,6 +5,7 @@ const scrollingPage = (() => {
     let anchors = document.querySelectorAll('.img-anchor');
     let assignCordsToAnchors = [];
     let currentPic = '';
+    let running = false;
 
     function init() {
 
@@ -29,26 +30,22 @@ const scrollingPage = (() => {
         let scrollTop = window.pageYOffset + window.innerHeight;
         let imageSrc = '';
 
-        setTimeout(() => {
-            for(let i = assignCordsToAnchors.length - 1; i >= 0; i--) {
-                if(scrollTop > assignCordsToAnchors[i][0] || scrollTop < assignCordsToAnchors[0][0] ) {
-                    if(currentPic !== assignCordsToAnchors[i][0] ) {
-                        currentPic = assignCordsToAnchors[i][0];
-                        imageSrc = require('../images/' + assignCordsToAnchors[i][1]);
-                        imageContainer.style.cssText = 'background-image: url('+ imageSrc  + ')';
-                        return;
-                    } else {
-                        console.log('Było');
-                        return
-                    }
+        for(let i = assignCordsToAnchors.length - 1; i >= 0; i--) {
+            if(scrollTop > assignCordsToAnchors[i][0] || scrollTop < assignCordsToAnchors[0][0] ) {
+                if(currentPic !== assignCordsToAnchors[i][0] ) {
+                    currentPic = assignCordsToAnchors[i][0];
+                    imageSrc = require('../images/' + assignCordsToAnchors[i][1]);
+                    imageContainer.style.cssText = 'background-image: url('+ imageSrc  + ')';
+                    return;
+                } else {
+                    console.log('This image is loaded');
+                    return
                 }
             }
-        }, 200)
+        }
     }
 
     function getAllAnchors(callback) {
-
-        let running = false;
 
         if(!running){
             running = true;
@@ -60,8 +57,8 @@ const scrollingPage = (() => {
                     let imageSrc = item.getAttribute('data-src');
                     assignCordsToAnchors.push([cordsX, imageSrc]);
                 });
-                running = false;
                 callback();
+                running = false;
             }, 200)
         }
     }
