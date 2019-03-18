@@ -1,0 +1,57 @@
+.m-revealer {
+    &__trigger {
+        display: grid;
+        grid-template-columns: 1fr 50px;
+
+        &:hover {
+            cursor: pointer;
+            background: lightgrey;
+        }
+
+        .-open & {
+            background: #000;
+            color: #fff;
+
+            &:hover {
+                background: #1D1F20;
+            }
+        }
+    }
+
+    &__heading {
+        margin: 0;
+        padding: 10px 20px;
+    }
+    
+    &__icon {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+            content: '';
+            display: block;
+            height: 0;
+            width: 0;
+            border-top: 10px solid #000;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+
+            .-open & {
+                transform: rotate(180deg);
+                border-top-color: #fff; 
+            }
+        }
+    }
+    
+    &__content {
+        border-top: 1px solid #000;
+        padding: 10px 20px;
+        display: none;
+        
+        .-open & {
+            display: block;
+        }
+    }
+}
